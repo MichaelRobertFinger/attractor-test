@@ -1,0 +1,23 @@
+{
+  "name": "attractor",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "attractor": "./src/cli.ts"
+  },
+  "scripts": {
+    "start": "bun src/cli.ts",
+    "lint": "bun tsc --noEmit",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
+    "@google/generative-ai": "^0.24.1",
+    "openai": "^6.33.0"
+  }
+}

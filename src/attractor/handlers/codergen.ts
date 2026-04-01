@@ -95,12 +95,27 @@ export class CodergenHandler implements Handler {
     }
 
     // 6. Build and return outcome
+    // If response is JSON, extract top-level scalar fields into context as <nodeId>.<field>
+    const jsonContext: Record<string, unknown> = {};
+    const stripped = responseText.replace(/^```[a-z]*\n?/i, "").replace(/\n?```$/, "").trim();
+    try {
+      const parsed = JSON.parse(stripped);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        for (const [k, v] of Object.entries(parsed)) {
+          if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
+            jsonContext[`${node.id}.${k}`] = v;
+          }
+        }
+      }
+    } catch { /* not JSON, ignore */ }
+
     const outcome: Outcome = {
       status: "SUCCESS",
       notes: `Stage completed: ${node.id}`,
       contextUpdates: {
         last_stage: node.id,
         last_response: truncate(responseText, 200),
+        ...jsonContext,
       },
     };
 

@@ -1,0 +1,11 @@
+digraph hello {
+  goal = "Write a haiku about pipelines"
+
+  start [shape=circle, type=start]
+  write [shape=box, type=codergen, label="Write a haiku",
+         prompt="Write a haiku (3 lines, 5-7-5 syllables) about software pipelines. Reply with only the haiku."]
+  done [shape=Msquare, type=exit]
+
+  start -> write
+  write -> done
+}
